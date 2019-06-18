@@ -1,0 +1,136 @@
+* {
+  margin: 10px 50px 10px 50px;
+}
+
+.swiper-container {
+  width: 700px;
+  height: 300px;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: rgba(#ffffff, 0);
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-pagination-bullet {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+  color: #000;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.swiper-pagination-bullet-active {
+  color: #fff;
+  background: #ffb1b1;
+}
+
+nav {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background: linear-gradient(90deg, #fff6b1, #ffdeb1, #ffcdb1, #ffd7d7, #ffb1b1);
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+ul,
+li {
+  margin: 0px;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  z-index: 1;
+  margin: 0px;
+  text-align: center;
+}
+
+.row .thumbnail {
+  margin: 0px;
+}
+
+.row .thumbnail .caption {
+  margin: 0px;
+  padding: 0px;
+}
+
+#main-menu>li {
+  float: left;
+  position: relative;
+  margin: auto;
+}
+
+#main-menu>li>a {
+  font-size: 1.5rem;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  display: block;
+  padding: 14px 36px;
+  margin: 0px;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+#main-menu>li:nth-child(1)>a {
+  border-left: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+#sub-menu {
+  z-index: 2;
+  position: absolute;
+  background: #fff2cc;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-in;
+}
+
+#sub-menu>li {
+  padding: 16px 28px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+#sub-menu>li>a {
+  color: #9e9e9e;
+  text-decoration: none;
+}
+
+#main-menu>li:hover #sub-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+#sub-menu>li>a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  display: table;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
