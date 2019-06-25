@@ -1,6 +1,13 @@
 <?php
+
+include 'db_Processing.php';
 error_reporting(0);
 session_start();
+
+
+$db_con   =   new mysqli(DB_info::DB_URL, DB_info::DB_HOST,
+                          DB_info::DB_PW, DB_info::DB_NAME);
+
 ?>
 
 <!-- included CDN and css information -->
@@ -19,6 +26,10 @@ session_start();
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+<!-- JQuery library -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
   <!-- Link Swiper's CSS -->
   <link rel="stylesheet" href="./swiper.min.css">
@@ -34,51 +45,54 @@ session_start();
 </head>
 
 <body>
+<center>
+  <!-- Login Area
+            Switch to "display:none" after login process -->
 
-    <!-- Login Area
-              Switch to "display:none" after login process -->
+  <div id="loginArea">
+    <form method="post" action="./Controller.php">
+      ID <input type="text" name="user_id"> &nbsp;&nbsp;&nbsp;
+      PW <input type="password" name="user_pw"> &nbsp;&nbsp;&nbsp;
+      <input type="hidden" name="function" value="login" />
+      <input class="btn btn-success" type="submit" value="ログイン" onclick="ajax()"/>
+    </form>
 
-    <div style="margin-left:600px;" id="loginArea">
-      <form method="post" action="./Controller.php">
-        ID <input type="text" name="user_id"> &nbsp;&nbsp;&nbsp;
-        PW <input type="password" name="user_pw"> &nbsp;&nbsp;&nbsp;
-        <input type="hidden" name="function" value="login" />
-        <input class="btn btn-success" type="submit" value="ログイン" onclick="ajax()"/>
-      </form>
-
-      <input class="btn btn-info" type="button"
-      value="新規登録" onclick="user_Join()" style="margin-left:230px;"/>
-    </div>
+    <input class="btn btn-info" type="button"
+    value="新規登録" onclick="user_Join()"/>
+  </div>
 
 
 <!-- Login confirmation Area
-                        Switch on login successed-->
-  <?php
-  if(isset($_SESSION['user_id'])){
+                      Switch on login successed-->
+<?php
+if(isset($_SESSION['user_id'])){
 
-    echo "<script>document.getElementById('loginArea').style.display='none'</script>";
-    echo ("<div id = loginResult; style = 'text-align:center; margin-left: 50px;'>");
+  echo "<script>document.getElementById('loginArea').style.display='none'</script>";
+  echo "<div id = loginResult; style = 'text-align:center;'>";
+$user_qualify = $_SESSION['user_qualify'];
 
-  $user_qualify = $_SESSION['user_qualify'];
+echo $_SESSION['user_name']."  様, ようこそ  ";
 
-  echo $_SESSION['user_name']."  様, ようこそ  ";
+
 ?>
 
 <form action="./Controller.php" method="post">
-  <input type="hidden" name="function" value="logout"/>
+<input type="hidden" name="function" value="logout"/>
 <input type="submit" class="btn btn-default" value="Logout">
 </form>
 
 
 <?php
-  echo "</div>";
-  }
+
+echo "</div>";
+}
 ?>
 
 
 
   <!-- Insert Banner and Logo -->
-  <div style="background-color: #ffb1b1; float:left; width: 80%;
+  <a href="./main.php" style="color:black;">
+  <div style="background-color: #ffffff; border: solid 1px #ffb1b1; float:left; width: 80%;
   height = 200px; margin: 20px 160px;">
 
     <div class="d-flex justify-content-start" style="float:left;">
@@ -92,27 +106,31 @@ session_start();
       <p style="font-family: Comic Sans MS;">I: prepared Only for you! enjoy your shopping :D</p>
     </div>
   </div>
+  </a>
+
 
 
   <!-- Insert Image Swiper -->
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
-        <image src="img/1.jpg" style="width: 700px; height=300px;">
+        <image src="img/1.jpg" style="width: 700px; height=700px;">
       </div>
       <div class="swiper-slide">
-        <image src="img/3.png" style="width: 700px; height=300px;">
+        <image src="img/3.png" style="width: 700px; height=700px;">
       </div>
       <div class="swiper-slide">
-        <image src="img/4.png" style="width: 700px; height=300px;">
+        <image src="img/4.png" style="width: 700px; height=700px;">
       </div>
       <div class="swiper-slide">
-        <image src="img/10.png" style="width: 700px; height=300px;">
+        <image src="img/10.png" style="width: 700px; height=700px;">
       </div>
       <div class="swiper-slide">
-        <image src="img/6.png" style="width: 700px; height=300px;">
+        <image src="img/6.png" style="width: 700px; height=700px;">
       </div>
     </div>
+
+
     <!-- Add Pagination -->
     <div class="swiper-pagination"></div>
   </div>
@@ -134,8 +152,9 @@ session_start();
   </script>
 
 
+
   <!-- Category Bar -->
-  <nav role="navigation">
+  <nav role="navigation" class="nav">
     <ul id="main-menu">
       <li><a href="#">Post it</a>
         <ul id="sub-menu">
@@ -163,28 +182,28 @@ session_start();
         </ul>
       </li>
 
-<?php
 
-if($_SESSION['user_qualify'] == "2"){?>
+<!-- Set different categories that are visible according to user permissions -->
+<!-- Display product registration category if user == administrator -->
+    <?php
+        if($_SESSION['user_qualify'] == "2"){?>
+            <li><a onclick="product_Register()">Product Register</a></li>
+    <?php } ?>
 
-<li><a onclick="product_Register()">Product Register</a></li>
-
-<?php } ?>
 
 
-<?php
-
-if($_SESSION['user_qualify'] == "1" || $_SESSION['user_qualify'] == NULL ){
-
-  ?>
+<!-- Display product List category if user == general user -->
+    <?php
+        if($_SESSION['user_qualify'] == "1" || $_SESSION['user_qualify'] == NULL ){
+    ?>
 
 <li>
-<a>
-<form action="./product_List.php" method="post" id = "session_submit">
+<a style="padding-bottom:0px; padding-top:10px;">
+<form action="./product_List.php" method="post" id = "session_submit" style="margin:0px;">
 
-   <input type="hidden" name="user_id" value="<?php $_SESSION['user_id'] ?>"/>
-  <input type="hidden" name="user_name" value="<?php  $_SESSION['user_name'] ?>"/>
-  <input type="submit"
+   <input type="hidden" name="user_id" value="<?php echo  $_SESSION['user_id']; ?>"/>
+  <input type="hidden" name="user_name" value="<?php echo   $_SESSION['user_name']; ?>"/>
+  <input type="submit" class="btn btn-link" style="color:white;"
   name="Submit1" value="Product List" onclick="product_List()"/>
 </form>
 
@@ -192,73 +211,147 @@ if($_SESSION['user_qualify'] == "1" || $_SESSION['user_qualify'] == NULL ){
 </li>
 
 <?php } ?>
-
 </nav>
 
+
+<!-- Display Recommend Product List/Cart/Purchase Buttons -->
+<!-- Query Process that Call Product Information from Database -->
+<?php
+$query    =   "select * from product_list where p_num=2";
+$result   =   mysqli_query($db_con,$query);
+$row      =   mysqli_fetch_array($result);
+
+$user_num_query = "select user_num from user_list where user_id = '". $_SESSION['user_id']."'" ;
+$user_num_result = mysqli_query($db_con,$user_num_query);
+$user_num_row = mysqli_fetch_array($user_num_result);
+ ?>
 
 <!-- 商品個別divを包むdiv -->
 <Br />
   <h2>Recommend Product</h2>
 
   <!-- Product div -->
-
-
 <div class="row">
 
-	<div class="col-xs-3 col-md-3" style="margin:0px;">
-		<div class="thumbnail">
-			<img src="img/3.png">
-			<div class="caption">
-				<h3><strong>Product Name</strong></h3>
-				<p>Product Memo</p>
-        	<b>Product Price　円</b><br><br>
-        <input type="submit" button class="btn btn-warning btn-lg" value= "Buy" onclick="product_Purchase()">
-        <input type="image" button class="btn btn-success btn-lg" src="img/KAGO2.png" onclick="product_Cart()">
-			</div>
-		</div>
-	</div>
+<!-- Product 1 -->
+    <form method="post" id="Speed_Purchasing">
+
+        <div class="col-xs-3 col-md-3" style="margin:0px;">
+    		<div class="thumbnail">
+
+                <!-- Send values in hidden mode -->
+                <input type="hidden" name="p_num" value="<?=$row['p_num']?>"/>
+                <input type="hidden" name="count" value="1"/>
+                <input type="hidden" name="p_price"  value="<?=$row['p_price']?>"/>
+                <input type="hidden" name="user_num" value="<?=$user_num_row['user_num']?>"/>
+                <input type="hidden" name="user_id" value="<?=$_SESSION['user_id']?>"/><input type="hidden" name="user_name" value="<?=$_SESSION['user_name']?>"/>
+
+                <!-- Print Product Information from DB -->
+    			<img src="img/<?=$row['p_img']?>">
+    			<div class="caption">
+    				<h3><strong><?=$row['p_name']?></strong></h3>
+    				<p><?=$row['p_memo']?></p>
+            	<b><?=$row['p_price']?>　円</b><br><br>
+
+                <!-- Buttons that are linked to each function-->
+                <input type="submit" button class="btn btn-warning btn-lg" value= "Buy" onclick="Go_Purchase()">
+
+                <input type="image" button class="btn btn-success btn-lg" src="img/KAGO2.png" onclick="Go_Cart()">
+    			</div>
+    		</div>
+    	</div>
+    </form>
 
 
-	<div class="col-xs-3 col-md-3" style="margin:0px;">
-		<div class="thumbnail">
-			<img src="img/3.png">
-			<div class="caption">
-        <h3><strong>Product Name</strong></h3>
-        <p>Product Memo</p>
-          <b>Product Price　円</b><br><br>
-        <input type="submit" button class="btn btn-warning btn-lg" value= "Buy" onclick="product_Purchase()">
-  <input type="image" button class="btn btn-success btn-lg" src="img/KAGO2.png" onclick="product_Cart()">
-			</div>
-		</div>
-	</div>
+
+<!-- Product 2 -->
+<form method="post" id="Speed_Purchasing">
+
+    <div class="col-xs-3 col-md-3" style="margin:0px;">
+        <div class="thumbnail">
+
+            <!-- Send values in hidden mode -->
+            <input type="hidden" name="p_num" value="<?=$row['p_num']?>"/>
+            <input type="hidden" name="count" value="1"/>
+            <input type="hidden" name="p_price"  value="<?=$row['p_price']?>"/>
+            <input type="hidden" name="user_num" value="<?=$user_num_row['user_num']?>"/>
+            <input type="hidden" name="user_id" value="<?=$_SESSION['user_id']?>"/><input type="hidden" name="user_name" value="<?=$_SESSION['user_name']?>"/>
+
+            <!-- Print Product Information from DB -->
+            <img src="img/<?=$row['p_img']?>">
+            <div class="caption">
+                <h3><strong><?=$row['p_name']?></strong></h3>
+                <p><?=$row['p_memo']?></p>
+            <b><?=$row['p_price']?>　円</b><br><br>
+
+            <!-- Buttons that are linked to each function-->
+            <input type="submit" button class="btn btn-warning btn-lg" value= "Buy" onclick="Go_Purchase()">
+
+            <input type="image" button class="btn btn-success btn-lg" src="img/KAGO2.png" onclick="Go_Cart()">
+            </div>
+        </div>
+    </div>
+</form>
 
 
-	<div class="col-xs-3 col-md-3" style="margin:0px;">
-		<div class="thumbnail">
-			<img src="img/3.png">
-			<div class="caption">
-        <h3><strong>Product Name</strong></h3>
-        <p>Product Memo</p>
-          <b>Product Price　円</b><br><br>
-        <input type="submit" button class="btn btn-warning btn-lg" value= "Buy" onclick="product_Purchase()">
-  <input type="image" button class="btn btn-success btn-lg" src="img/KAGO2.png" onclick="product_Cart()">
-			</div>
-		</div>
-	</div>
+<!-- Product 3 -->
+<form method="post" id="Speed_Purchasing">
+
+    <div class="col-xs-3 col-md-3" style="margin:0px;">
+        <div class="thumbnail">
+
+            <!-- Send values in hidden mode -->
+            <input type="hidden" name="p_num" value="<?=$row['p_num']?>"/>
+            <input type="hidden" name="count" value="1"/>
+            <input type="hidden" name="p_price"  value="<?=$row['p_price']?>"/>
+            <input type="hidden" name="user_num" value="<?=$user_num_row['user_num']?>"/>
+            <input type="hidden" name="user_id" value="<?=$_SESSION['user_id']?>"/><input type="hidden" name="user_name" value="<?=$_SESSION['user_name']?>"/>
+
+            <!-- Print Product Information from DB -->
+            <img src="img/<?=$row['p_img']?>">
+            <div class="caption">
+                <h3><strong><?=$row['p_name']?></strong></h3>
+                <p><?=$row['p_memo']?></p>
+            <b><?=$row['p_price']?>　円</b><br><br>
+
+            <!-- Buttons that are linked to each function-->
+            <input type="submit" button class="btn btn-warning btn-lg" value= "Buy" onclick="Go_Purchase()">
+
+            <input type="image" button class="btn btn-success btn-lg" src="img/KAGO2.png" onclick="Go_Cart()">
+            </div>
+        </div>
+    </div>
+</form>
 
 
-	<div class="col-xs-3 col-md-3" style="margin:0px;">
-		<div class="thumbnail">
-			<img src="img/3.png">
-			<div class="caption">
-        <h3><strong>Product Name</strong></h3>
-        <p>Product Memo</p>
-          <b>Product Price　円</b><br><br>
-        <input type="submit" button class="btn btn-success btn-lg" value= "Buy" onclick="product_Purchase()">
-    <input type="image" button class="btn btn-warning btn-lg" src="img/KAGO2.png" onclick="product_Cart()">
-			</div>
-		</div>
-	</div>
+<!-- Product 4 -->
+<form method="post" id="Speed_Purchasing">
+
+    <div class="col-xs-3 col-md-3" style="margin:0px;">
+        <div class="thumbnail">
+
+            <!-- Send values in hidden mode -->
+            <input type="hidden" name="p_num" value="<?=$row['p_num']?>"/>
+            <input type="hidden" name="count" value="1"/>
+            <input type="hidden" name="p_price"  value="<?=$row['p_price']?>"/>
+            <input type="hidden" name="user_num" value="<?=$user_num_row['user_num']?>"/>
+            <input type="hidden" name="user_id" value="<?=$_SESSION['user_id']?>"/><input type="hidden" name="user_name" value="<?=$_SESSION['user_name']?>"/>
+
+            <!-- Print Product Information from DB -->
+            <img src="img/<?=$row['p_img']?>">
+            <div class="caption">
+                <h3><strong><?=$row['p_name']?></strong></h3>
+                <p><?=$row['p_memo']?></p>
+            <b><?=$row['p_price']?>　円</b><br><br>
+
+            <!-- Buttons that are linked to each function-->
+            <input type="submit" button class="btn btn-warning btn-lg" value= "Buy" onclick="Go_Purchase()">
+
+            <input type="image" button class="btn btn-success btn-lg" src="img/KAGO2.png" onclick="Go_Cart()">
+            </div>
+        </div>
+    </div>
+</form>
 </div>
 
 
@@ -275,7 +368,7 @@ if($_SESSION['user_qualify'] == "1" || $_SESSION['user_qualify'] == NULL ){
 </footer>
 <BR />
 
-
+</center>
 
 <script>
   function ajax(){
@@ -292,31 +385,30 @@ if($_SESSION['user_qualify'] == "1" || $_SESSION['user_qualify'] == NULL ){
     window.open("./user_Join.php","user register", "width:250px, height:250px");
   }
 
-  function product_Purchase(){
-  //window.open("./product_Purchase.php",  "Purchase_form","width:250px, height:250px" )
 
-  window.open("./product_Purchase.php","Buy","width:300px, height:600px");
+  function Go_Cart(){
+      alert('Cart');
+      $("#Speed_Purchasing").attr("action", "./product_Cart.php");
+
   }
 
-  function product_Cart(){
-    window.open("./product_Cart.php", "Success","width:250px, height:250px" )
+
+  function Go_Purchase(){
+      alert('Purchase');
+      $("#Speed_Purchasing").attr("action", "./product_Purchase.php");
   }
+
+
 
   function product_Register(){
-    window.open("./product_Register.php", "Success","width:250px, height:500px" )
+    window.open("./product_Register.php", "width:250px, height:250px");
   }
 
   function product_List(){
-window.onload = function(){
-  document.session_submit.Submit1.click();
-}
-
-  //window.open("./product_List.php");
-  }
-
-function logout(){
-  location.href ='./Controller.php';
-}
+      window.onload = function(){
+                        document.session_submit.Submit1.click();
+                }
+    }
 
 
 </script>

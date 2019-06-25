@@ -31,18 +31,24 @@ if($function == "login"){
   $row = mysqli_fetch_assoc($result);
 
 
-  //Doesn't Exist ID Exception
+  //Doesn't Input Value Exception
   if(($user_id == NULL)||($user_pw == NULL)){
       echo "<script>alert('Input the Value')</script>";
-    echo "<script>location.href = './main.php'</script>";
+      echo "<script>location.href = './main.php'</script>";
     }
+
+//Doesn't Exist ID Exception
+if($row['user_id'] == ''){
+    echo "<script>alert('Doesn't Exist ID. Join plz')</script>";
+    echo "<script>location.href = './main.php'</script>";
+}
 
 //Correct to Login information
 if($user_id == $row['user_id']){
 
   if ($user_pw == $row['user_pw'] )
   {
-   session_start();
+
    $_SESSION['user_id'] = $row['user_id'];
    $_SESSION['user_pw'] = $row['user_pw'];
    $_SESSION['user_name'] = $row['user_name'];
@@ -80,7 +86,7 @@ if(($joinID == NULL) || ($joinPW == NULL) || ($joinMB == NULL) || ($joinNM == NU
 }
 
 else{
-$query = $process_query->insert("user_list", "('','$joinID','$joinPW','$joinNM','$joinMB','1','NULL')");
+$query = $process_query->insert("user_list", "('','$joinID','$joinPW','$joinNM','$joinMB','1')");
 
 
 if(empty($query)){
@@ -103,7 +109,7 @@ if($function == "logout"){
 /*********************************************************************/
 /*****************Processing product-related tasks********************/
 
-if($function = "product_register"){
+if($function == "product_register"){
 
 $p_name   = $_POST['p_name'];
 $p_memo   = $_POST['p_memo'];
@@ -124,13 +130,11 @@ echo "<script>alert('Register Complete')</script>";
 echo "<script>self.close()</script>";
 }
 
+
+
 if($function=="purchase"){
-if(isset($_SESSION['user_id'])){
-echo "<script>alert('oh you have id')</script>";
-}
-else{
-  echo "<script>alert('Login plz')</script>";
-}
+
+echo "<script>alert('Test alarm before a value is passed')</script>";
 
 }
 

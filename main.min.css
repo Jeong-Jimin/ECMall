@@ -42,7 +42,7 @@
   background: #ffb1b1;
 }
 
-nav {
+.nav {
   width: 90%;
   display: flex;
   justify-content: center;

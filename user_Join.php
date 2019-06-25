@@ -12,7 +12,7 @@
 
 ID：<input type="text" name="joinID" ><br />
 PW：<input type="password" name="joinPW"><br />
-NAME:<input type="text" placeholder="English Only" name="joinNM"><br />
+NAME:<input type="text" placeholder="姓・名" name="joinNM"><br />
 MOBILE:<input type="tel"  name="joinMB"><br />
 
   <input type="submit" value="登録へ">

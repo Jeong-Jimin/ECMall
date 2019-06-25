@@ -23,6 +23,11 @@ class process{
     global $Query;
       $Query->query("insert into $table values $value");
   }
+
+  function delete($table, $column, $value){
+    global $Query;
+      $Query->query("delete from $table where $column = $value");
+  }
 }
 
 
