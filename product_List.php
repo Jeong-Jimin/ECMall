@@ -12,6 +12,13 @@ $query    =   "select count(*)as cnt from product_list";
 $result   =   mysqli_query($db_con,$query);
 $row      =   mysqli_fetch_array($result);
 $total    =   $row[cnt];
+
+$_SESSION['user_id']    = $_POST['user_id'];
+$_SESSION['user_name']  = $_POST['user_name'];
+
+if (!isset($_SESSION['user_id'])){
+  session_start();
+}
  ?>
 
  <head>
@@ -76,13 +83,13 @@ $total    =   $row[cnt];
                       Switch on login successed-->
   <?php
 
-  if(($_POST['user_id'])!= ''){
+  if(($_SESSION['user_id'])!= ''){
 
   echo "<script>document.getElementById('loginArea').style.display='none'</script>";
 
   echo ("<div id = loginResult; style = 'text-align:center;'>");
 
-  echo $_POST['user_name']."  様, ようこそ  ";
+  echo $_SESSION['user_name']."  様, ようこそ  ";
   ?>
 
 
@@ -155,8 +162,8 @@ while ($row = mysqli_fetch_array($result)) {?>
 <td>
   <form action="./product_Detail.php?p_num=<?=$row['p_num']; ?>" method="post" id = "session_submit">
 
-     <input type="hidden" name="user_id" value="<?php echo  $_POST['user_id']; ?>"/>
-    <input type="hidden" name="user_name" value="<?php echo   $_POST['user_name']; ?>"/>
+     <input type="hidden" name="user_id" value="<?php echo  $_SESSION['user_id']; ?>"/>
+    <input type="hidden" name="user_name" value="<?php echo   $_SESSION['user_name']; ?>"/>
     <input type="image"
     name="Submit1" src="img/<?=$row['p_img']?>" style="width:200px; height:200px;" onclick="auto_submit()"/>
   </form>
@@ -176,6 +183,8 @@ while ($row = mysqli_fetch_array($result)) {?>
 
 $pages = round($total/$page_num) + 1;
 
+
+
 for($i = 0 ; $i<$pages ; $i++ ){
 
   $start = $page_num * $i;
@@ -184,8 +193,8 @@ for($i = 0 ; $i<$pages ; $i++ ){
 
 echo "<a href = $PHP_SELF?start=$start > $print_page </a>";
 
-
 }
+
   ?>
   </body>
 </center>

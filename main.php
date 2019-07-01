@@ -57,6 +57,7 @@ $db_con   =   new mysqli(DB_info::DB_URL, DB_info::DB_HOST,
       <input class="btn btn-success" type="submit" value="ログイン" onclick="ajax()"/>
     </form>
 
+    <!-- User Register Button -->
     <input class="btn btn-info" type="button"
     value="新規登録" onclick="user_Join()"/>
   </div>
@@ -72,10 +73,9 @@ if(isset($_SESSION['user_id'])){
 $user_qualify = $_SESSION['user_qualify'];
 
 echo $_SESSION['user_name']."  様, ようこそ  ";
-
-
 ?>
 
+<!-- Logout Button. linked to Controller -->
 <form action="./Controller.php" method="post">
 <input type="hidden" name="function" value="logout"/>
 <input type="submit" class="btn btn-default" value="Logout">
@@ -191,12 +191,6 @@ echo "</div>";
     <?php } ?>
 
 
-
-<!-- Display product List category if user == general user -->
-    <?php
-        if($_SESSION['user_qualify'] == "1" || $_SESSION['user_qualify'] == NULL ){
-    ?>
-
 <li>
 <a style="padding-bottom:0px; padding-top:10px;">
 <form action="./product_List.php" method="post" id = "session_submit" style="margin:0px;">
@@ -210,14 +204,13 @@ echo "</div>";
 </a>
 </li>
 
-<?php } ?>
 </nav>
 
 
 <!-- Display Recommend Product List/Cart/Purchase Buttons -->
 <!-- Query Process that Call Product Information from Database -->
 <?php
-$query    =   "select * from product_list where p_num=2";
+$query    =   "select * from product_list where p_num=9";
 $result   =   mysqli_query($db_con,$query);
 $row      =   mysqli_fetch_array($result);
 
@@ -234,7 +227,7 @@ $user_num_row = mysqli_fetch_array($user_num_result);
 <div class="row">
 
 <!-- Product 1 -->
-    <form method="post" id="Speed_Purchasing">
+    <form method="post" class="Speed_Purchasing">
 
         <div class="col-xs-3 col-md-3" style="margin:0px;">
     		<div class="thumbnail">
@@ -265,7 +258,7 @@ $user_num_row = mysqli_fetch_array($user_num_result);
 
 
 <!-- Product 2 -->
-<form method="post" id="Speed_Purchasing">
+<form method="post" class="Speed_Purchasing">
 
     <div class="col-xs-3 col-md-3" style="margin:0px;">
         <div class="thumbnail">
@@ -295,7 +288,7 @@ $user_num_row = mysqli_fetch_array($user_num_result);
 
 
 <!-- Product 3 -->
-<form method="post" id="Speed_Purchasing">
+<form method="post" class="Speed_Purchasing">
 
     <div class="col-xs-3 col-md-3" style="margin:0px;">
         <div class="thumbnail">
@@ -325,7 +318,7 @@ $user_num_row = mysqli_fetch_array($user_num_result);
 
 
 <!-- Product 4 -->
-<form method="post" id="Speed_Purchasing">
+<form method="post" class="Speed_Purchasing">
 
     <div class="col-xs-3 col-md-3" style="margin:0px;">
         <div class="thumbnail">
@@ -387,15 +380,13 @@ $user_num_row = mysqli_fetch_array($user_num_result);
 
 
   function Go_Cart(){
-      alert('Cart');
-      $("#Speed_Purchasing").attr("action", "./product_Cart.php");
+      $(".Speed_Purchasing").attr("action", "./product_Cart.php");
 
   }
 
 
   function Go_Purchase(){
-      alert('Purchase');
-      $("#Speed_Purchasing").attr("action", "./product_Purchase.php");
+      $(".Speed_Purchasing").attr("action", "./product_Purchase.php");
   }
 
 

@@ -3,7 +3,7 @@ include 'db_Processing.php';
 session_start();
 
 $function = $_POST['function'];
-$today = date('Y-m-d-h:i');
+$today = date('Ymdhis');
 $process_query = new process();
 
 $db_con = new mysqli(DB_info::DB_URL, DB_info::DB_HOST,
@@ -134,10 +134,33 @@ echo "<script>self.close()</script>";
 
 if($function=="purchase"){
 
-echo "<script>alert('Test alarm before a value is passed')</script>";
+/* Receive value from product_Purchase file */
+$user_num = $_POST['user_num'];
+$p_num = $_POST['p_num'];
+$p_count = $_POST['count'];
+$p_payment = $_POST['payment'];
+$p_deliveryDate = $_POST['deliveryDate'];
+$p_money = $_POST['p_money'];
+
+$customer_name = $_POST['customer_name'];
+$customer_mobile = $_POST['customer_mobile'];
+$customer_postnum = $_POST['customer_postnum'];
+$customer_address = $_POST['customer_address'];
+
+global $today;
+
+/* Insert order information in order_list table */
+/* do not allowed duplicate */
+$process_query->insert("order_list","('$today','$user_num','$p_num','$p_count','$p_money', '$p_payment','$p_deliveryDate')");
+
+
+/*Insert orderer information in customer_list table*/
+/*  duplicate allowed */
+$process_query->insert("customer_list", "('$today', '$user_num', '$customer_name','$customer_mobile','$customer_postnum','$customer_address' )");
 
 }
 
-
+echo "<script>alert('Order Complete! Thank you for your purchase :)')</script>";
+echo "<script>window.history.back(3)</script>";
 
  ?>

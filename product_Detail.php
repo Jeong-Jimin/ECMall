@@ -209,7 +209,6 @@ function Go_Cart(){
 
 
 function Go_Purchase(){
-    alert('Purchase');
     $("#ProductForm").attr("action", "./product_Purchase.php");
 }
 

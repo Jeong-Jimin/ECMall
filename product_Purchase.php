@@ -7,8 +7,6 @@ $db_con   =   new mysqli(DB_info::DB_URL, DB_info::DB_HOST,
       $query   =   "select * from product_list where p_num =".$_POST['p_num'];
       $result  =   mysqli_query($db_con,$query);
       $row     =   mysqli_fetch_array($result);
-
-
 ?>
 
 
@@ -32,16 +30,9 @@ $db_con   =   new mysqli(DB_info::DB_URL, DB_info::DB_HOST,
 
 
 <style>
-#wrap { width:800px; margin:50px auto; }
-#wrap dl dt { font-size:20px; font-weight:bold; border-bottom:1px dotted silver;
- cursor:pointer; position:relative; height:60px; color:silver; }
-#wrap dl dt.view { color:black; transition:all 0.7s; }
-#wrap dl dt::before { content:url(img/icon01.png); position:absolute; left:-40px;
-opacity:0.2; }
-#wrap dl dt.view::before { opacity:1; }
-#wrap dl dd { color:silver; display:none; }
-#wrap dl dd:nth-of-type(1) { display:block; }
-
+    #wrap { width:800px; margin:50px auto; }
+    #wrap dl dt { font-size:20px; font-weight:bold; border-bottom:1px dotted silver;
+             cursor:pointer; position:relative; height:60px; color:silver; }
 </style>
  </head>
 
@@ -114,8 +105,16 @@ opacity:0.2; }
 
 <div id="wrap">
 
+<!--------------------------------------------------------------->
+<!------------ Form for Sending Value to Controller ------------->
+<!--------------------------------------------------------------->
+
 <form action="./Controller.php" method="POST">
+
     <input type="hidden" name="function" value="purchase"/>
+    <input type="hidden" name="p_num" value="<?=$_POST['p_num']?>"/>
+    <input type="hidden" name="count" value="<?=$_POST['count']?>"/>
+    <input type="hidden" name="user_num" value="<?=$_POST['user_num']?>"/>
     <div id="accordion">
       <h3>注文情報</h3>
 
@@ -128,15 +127,13 @@ opacity:0.2; }
     <p>    Stock: <input type="text" value="<?= $_POST['count']  ?>"  id="count" name="count"/>個
     </p>
 
-
-
             <p> 値段：<?= $row['p_price']; ?>  </p>
 
 
             <?php
                 $count = $_POST['count'];
                 $p_money = $row['p_price']* $count ?>
-
+<input type="hidden" name="p_money" value="<?= $p_money ?>">
 
             <p> 合計：<?= $p_money; ?>  </p>
         </div>
@@ -153,26 +150,26 @@ opacity:0.2; }
       <h3>配送先情報入力</h3>
       <div>
         <p>
-        注文者名<input type="text" value="<?=$row['user_name'] ?>" name="user_name"/>
+        注文者名<input type="text" value="<?=$row['user_name'] ?>" name="customer_name"/>
         </p>
         <p>
-        連絡先 <input type="text" value="<?=$row['user_mobile'] ?>" name="user_mobile"/>
+        連絡先 <input type="text" value="<?=$row['user_mobile'] ?>" name="customer_mobile"/>
         </p>
         <p>
-        郵便番号<input type="text" name="post_num" placeholder="7 letters number"/>
+        郵便番号<input type="text" name="customer_postnum" placeholder="7 letters number"/>
         </p>
         <p>
-        詳細住所<input type="text" name="user_address"/>
+        詳細住所<input type="text" name="customer_address"/>
         </p>
         <p>
-        備考欄<input type="textarea" name="user_address"/>
+        備考欄<input type="textarea" name="describe"/>
         </p>
       </div>
 
 
       <h3>お届け予定日設定</h3>
       <div id="datepicker-center">
-          <p>Date: <input type="text" id="datepicker" class="datepicker"></p>
+          <p>Date: <input type="text" id="datepicker" class="datepicker" name="deliveryDate"></p>
           <p><strong>※お届け予定日は必ず注文日より3日後からお選びください※</strong></p>
       </div>
 
@@ -185,20 +182,20 @@ opacity:0.2; }
 
           <input type="image" src="img/card_all.gif"/><br />
           <label for="radio-1">クレジットカード</label>
-          <input type="radio"  name="radio-1" id="radio-1"><br /><br />
+          <input type="radio"  name="payment" id="payment" value="credit Card"><br /><br />
 
           <input type="image" src="img/after_payment_l.png"/><br />
           <label for="radio-2">コンビニ決済</label>
-          <input type="radio" name="radio-1" id="radio-2"><br /><br />
+          <input type="radio" name="payment" id="payment" value="convenience store"><br /><br />
 
           <input type="image" src="img/29_50px_05.gif"/><br />
           <label for="radio-3">代金引換</label>
-          <input type="radio" name="radio-1" id="radio-3"><br /><br />
+          <input type="radio" name="payment" id="payment" value="daibiki"><br /><br />
 
 
            <input type="image" src="img/31_50px_02.gif"/><br />
           <label for="radio-3">郵便建替</label>
-          <input type="radio" name="radio-1" id="radio-3"><br /><br />
+          <input type="radio" name="payment" id="payment" value="yuubin"><br /><br />
         </fieldset>
 
       </div>
@@ -209,19 +206,24 @@ opacity:0.2; }
     <input type="submit" value="この内容で注文"/>
 </form>
 
+<!--------------------------------------------------------------->
+<!------------ Form for Sending Value to Controller ------------->
+<!--------------------------------------------------------------->
 </center>
 </div>
 
+
+
 <script>
+//JQuery function Import
+
 $( function() {
 $( "#datepicker" ).datepicker({
     monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
 dayNames: ['日', '月', '火', '水', '木', '金', '土'],
 dateFormat: 'yy/mm/dd'
 });
-
 } );
-
 
 $( function() {
   $( "#accordion" ).accordion();
