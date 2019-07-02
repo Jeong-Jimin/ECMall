@@ -78,9 +78,15 @@ echo $_SESSION['user_name']."  様, ようこそ  ";
 <!-- Logout Button. linked to Controller -->
 <form action="./Controller.php" method="post">
 <input type="hidden" name="function" value="logout"/>
-<input type="submit" class="btn btn-default" value="Logout">
+<input type="submit" class="btn btn-default" value="LOGOUT">
 </form>
 
+<!-- MYPAGE Button -->
+<form method="post" action="./user_Mypage.php">
+    <input type="hidden" name="user_id" value="<?=$_SESSION['user_id'] ?>"/>
+    <input type="hidden" name="user_name" value="<?=$_SESSION['user_name'] ?>"/>
+    <input type="submit" class="btn btn-default" value="MYPAGE">
+</form>
 
 <?php
 
@@ -159,18 +165,12 @@ echo "</div>";
       <li><a href="#">Post it</a>
         <ul id="sub-menu">
           <li><a href="#" aria-label="subemnu">Grid</a></li>
-          <li><a href="#" aria-label="subemnu">Character</a></li>
-          <li><a href="#" aria-label="subemnu">Simple</a></li>
-          <li><a href="#" aria-label="subemnu">Image</a></li>
         </ul>
       </li>
 
       <li><a href="#">Note and MemoPad</a>
         <ul id="sub-menu">
           <li><a href="#" aria-label="subemnu">Grid Note</a></li>
-          <li><a href="#" aria-label="subemnu">Diary</a></li>
-          <li><a href="#" aria-label="subemnu">Scheduler</a></li>
-          <li><a href="#" aria-label="subemnu">MemoPad</a></li>
         </ul>
       </li>
 

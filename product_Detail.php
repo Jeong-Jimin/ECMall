@@ -103,9 +103,15 @@ $db_con = new mysqli(DB_info::DB_URL, DB_info::DB_HOST,
 
     <form action="./Controller.php" method="post">
     <input type="hidden" name="function" value="logout"/>
-    <input type="submit" class="btn btn-default" value="Logout">
+    <input type="submit" class="btn btn-default" value="LOGOUT">
     </form>
 
+    <!-- MYPAGE Button -->
+    <form method="post" action="./user_Mypage.php">
+        <input type="hidden" name="user_id" value="<?=$_SESSION['user_id'] ?>"/>
+        <input type="hidden" name="user_name" value="<?=$_SESSION['user_name'] ?>"/>
+        <input type="submit" class="btn btn-default" value="MYPAGE">
+    </form>
 
     <?php
     echo "</div>";

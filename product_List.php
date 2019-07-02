@@ -42,8 +42,6 @@ if (!isset($_SESSION['user_id'])){
  th {
    font-size: 30px;
    width:500px;
-   background-color:#ffb1b1;
-   border: solid 1px GRAY;
    text-align: center;
  }
 
@@ -51,11 +49,14 @@ if (!isset($_SESSION['user_id'])){
    font-size: 20px;
    text-align: center;
    width:500px;
-   border: solid 1px GRAY;
  }
 
  * {
    margin: 10px 50px 10px 50px;
+ }
+
+ center, table {
+     margin: 0px;
  }
  </style>
 
@@ -95,7 +96,15 @@ if (!isset($_SESSION['user_id'])){
 
   <form action="./Controller.php" method="post">
   <input type="hidden" name="function" value="logout"/>
-  <input type="submit" class="btn btn-default" value="Logout">
+  <input type="submit" class="btn btn-default" value="LOGOUT">
+  </form>
+
+
+  <!-- MYPAGE Button -->
+  <form method="post" action="./user_Mypage.php">
+      <input type="hidden" name="user_id" value="<?=$_SESSION['user_id'] ?>"/>
+      <input type="hidden" name="user_name" value="<?=$_SESSION['user_name'] ?>"/>
+      <input type="submit" class="btn btn-default" value="MYPAGE">
   </form>
 
 
@@ -124,19 +133,18 @@ if (!isset($_SESSION['user_id'])){
 
 
 
-
 <html>
 <center>
   <body>
-    <table>
-      <tr>
-        <th>
+    <table class="table table-hover">
+      <tr class="bg-danger">
+        <th scope="col">
           Product
         </th>
-        <th>
+        <th scope="col">
           Name
         </th>
-        <th>
+        <th scope="col">
           Price
         </th>
       </tr>
