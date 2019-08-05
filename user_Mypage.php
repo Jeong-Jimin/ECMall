@@ -20,6 +20,9 @@ $_POST['user_name'];
    <!-- Latest compiled JavaScript -->
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 
     * {
@@ -119,4 +122,61 @@ while ($Ordercheck_row = mysqli_fetch_array($Ordercheck_result)) {?>
         </table>
     </div>
     <hr />
+
+    <br />
+    <hr />
+
+
+
+    <div id="cartcheck">
+
+        <h3>CART確認欄</h3>
+        <table class="table table-striped">
+
+            <thead>
+               <tr>
+                 <th scope="col">PRODUCT INFO</th>
+                 <th scope="col">PRODUCT NAME</th>
+                 <th scope="col">PRODUCT COUNT</th>
+               </tr>
+             </thead>
+
+    <?php
+
+    $Ordercheck_query  = "select * from cart_list as a join product_list as b
+                        on a.p_num = b.p_num where a.user_num =".$row['user_num']." group by a.p_num order by a.user_num desc" ;
+
+    $Ordercheck_result = mysqli_query($db_con, $Ordercheck_query);
+
+    while ($Ordercheck_row = mysqli_fetch_array($Ordercheck_result)) {?>
+
+               <tr>
+                 <td>
+                     <input type="image"
+                    src="img/<?=$Ordercheck_row['p_img'] ?>" style="width:200px; height:200px;"/>
+                 </td>
+                 <td><?=$Ordercheck_row['p_name'] ?></td>
+                 <td><?=$Ordercheck_row['p_count'] ?></td>
+<td>
+    <form id="ProductForm" method="post">
+        <input type="hidden" name="p_num" value="<?=$Ordercheck_row['p_num'] ?>"/>
+        <input type="hidden" name="p_num" value="<?=$Ordercheck_row['p_num'] ?>"/>
+        <input type="hidden" name="user_id" value="<?=$_POST['user_id'] ?>"/>
+        <input type="hidden" name="user_name" value="<?=$_POST['user_name'] ?>"/>
+        <input type= "image" style="width:200px; height:100px;"
+                src="img/buy.png" onclick="Go_Purchase()">
+    </form>
+</td>
+               </tr>
+    <?php } ?>
+
+        </table>
+    </div>
+
 </center>
+
+<script>
+function Go_Purchase(){
+    $("#ProductForm").attr("action", "./product_Purchase.php");
+}
+</script>

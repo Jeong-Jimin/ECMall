@@ -187,20 +187,20 @@ $db_con   =   new mysqli(DB_info::DB_URL, DB_info::DB_HOST,
         <fieldset>
           <legend>Select a Payment Information: </legend>
 
-          <input type="image" src="img/card_all.gif"/><br />
+          <img src="img/card_all.gif"/><br />
           <label for="radio-1">クレジットカード</label>
           <input type="radio"  name="payment" id="payment" value="クレジットカード"><br /><br />
 
-          <input type="image" src="img/after_payment_l.png"/><br />
+          <img src="img/after_payment_l.png"/><br />
           <label for="radio-2">コンビニ決済</label>
           <input type="radio" name="payment" id="payment" value="コンビニ決済"><br /><br />
 
-          <input type="image" src="img/29_50px_05.gif"/><br />
+          <img src="img/29_50px_05.gif"/><br />
           <label for="radio-3">代金引換</label>
           <input type="radio" name="payment" id="payment" value="代引き"><br /><br />
 
 
-           <input type="image" src="img/31_50px_02.gif"/><br />
+           <img src="img/31_50px_02.gif"/><br />
           <label for="radio-3">郵便建替</label>
           <input type="radio" name="payment" id="payment" value="郵便建替"><br /><br />
         </fieldset>

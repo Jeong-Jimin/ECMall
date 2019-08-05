@@ -8,11 +8,6 @@
 
 include 'db_Processing.php';
 
-$process = new process();
-$DB_conn = new mysqli(DB_info::DB_URL,DB_info::DB_HOST,
-                      DB_info::DB_PW,DB_info::DB_NAME)
-
-
 ?>
 <head>
 <link rel="stylesheet" href="./main.min.css">

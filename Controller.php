@@ -86,10 +86,15 @@ if(($joinID == NULL) || ($joinPW == NULL) || ($joinMB == NULL) || ($joinNM == NU
 }
 
 else{
+
+
 $query = $process_query->insert("user_list", "('','$joinID','$joinPW','$joinNM','$joinMB','1')");
 
 
-if(empty($query)){
+$result  = mysqli_query($db_con, $query);
+
+
+if(isset($result)){
   echo "<script>window.alert('Success to Register. Login please!')</script>";
   echo "<script>self.close()</script>";
 }
@@ -146,21 +151,21 @@ $customer_name = $_POST['customer_name'];
 $customer_mobile = $_POST['customer_mobile'];
 $customer_postnum = $_POST['customer_postnum'];
 $customer_address = $_POST['customer_address'];
-
+$order_date = date('Ymd');
 global $today;
 
 /* Insert order information in order_list table */
 /* do not allowed duplicate */
-$process_query->insert("order_list","('$today','$user_num','$p_num','$p_count','$p_money', '$p_payment','$p_deliveryDate')");
+$process_query->insert("order_list","('$today','$user_num','$p_num','$p_count','$p_money', '$p_payment','$p_deliveryDate', '$order_date')");
 
 
 /*Insert orderer information in customer_list table*/
 /*  duplicate allowed */
 $process_query->insert("customer_list", "('$today', '$user_num', '$customer_name','$customer_mobile','$customer_postnum','$customer_address' )");
 
-}
 
 echo "<script>alert('Order Complete! Thank you for your purchase :)')</script>";
 echo "<script>window.history.back(3)</script>";
+}
 
  ?>

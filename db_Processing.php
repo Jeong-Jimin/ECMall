@@ -11,7 +11,6 @@ class DB_info
 }
 
 
-$DBconn = new DB_info();
 $Query = new mysqli(DB_info::DB_URL, DB_info::DB_HOST,
                     DB_info::DB_PW, DB_info::DB_NAME);
 
