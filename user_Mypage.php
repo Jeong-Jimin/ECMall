@@ -160,7 +160,7 @@ while ($Ordercheck_row = mysqli_fetch_array($Ordercheck_result)) {?>
 <td>
     <form id="ProductForm" method="post">
         <input type="hidden" name="p_num" value="<?=$Ordercheck_row['p_num'] ?>"/>
-        <input type="hidden" name="p_num" value="<?=$Ordercheck_row['p_num'] ?>"/>
+        <input type="hidden" name="p_num" value="<?=$Ordercheck_row['p_count'] ?>"/>
         <input type="hidden" name="user_id" value="<?=$_POST['user_id'] ?>"/>
         <input type="hidden" name="user_name" value="<?=$_POST['user_name'] ?>"/>
         <input type= "image" style="width:200px; height:100px;"
